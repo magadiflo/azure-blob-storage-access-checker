@@ -1,3 +1,8 @@
 spring:
   application:
     name: token-sas
+
+custom:
+  blob-storage:
+    url: https://scvisoriareclingestadev.blob.core.windows.net
+    sas-token: sv=2023-01-03&ss=btqf&srt=sco&st=2024-11-27T21%3A00%3A38Z&se=2025-04-30T21%3A00%3A00Z&sp=rwdxftlacup&sig=3JDpSCgwloWuwAxvVlTWgiRwR8q71%2BRNez12gKdB%2BzE%3D
