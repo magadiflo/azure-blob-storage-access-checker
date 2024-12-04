@@ -28,10 +28,10 @@ public class AppConfig {
                 log.info("Listando contenido del contenedor: {}", this.containerName);
                 blobStorageService.listBlobsInContainer(this.containerName, this.sasToken);
 
-//                log.info("Descargando un archivo del contenedor: {}", this.containerName);
-//                String downloadFilePath = userHome + "\\Downloads\\reclamosnew_v2_respuestaIA.csv";
-//                String blobName = "resultados/reclamosnew_v2_respuestaIA.csv";
-//                blobStorageService.downloadBlobFromContainer(this.containerName, blobName, downloadFilePath, this.sasToken);
+                log.info("Descargando un archivo del contenedor: {}", this.containerName);
+                String blobName = "resultados/IA_Reclamos_input_20241204150413.csv";
+                String downloadFilePath = userHome + "\\Downloads\\" + blobName.replace("/", "-");
+                blobStorageService.downloadBlobFromContainer(this.containerName, blobName, downloadFilePath, this.sasToken);
 
                 log.info("Descargando todos los archivos del contenedor: {}", this.containerName);
                 String downloadDir = userHome + "\\Downloads\\" + this.containerName;
