@@ -31,7 +31,7 @@ public class AppConfig {
                 String userHome = System.getProperty("user.home");
                 String downloadFilePath = userHome + "\\Downloads\\reclamosnew_v1_respuestaIA.csv";
                 String blobName = "resultados/reclamosnew_v1_respuestaIA.csv";
-                blobStorageService.downloadBlob(this.containerName, blobName, downloadFilePath, this.sasToken);
+                blobStorageService.downloadBlobFromContainer(this.containerName, blobName, downloadFilePath, this.sasToken);
             }
 
         };

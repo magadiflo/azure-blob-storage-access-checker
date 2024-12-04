@@ -55,7 +55,7 @@ public class BlobStorageService {
         }
     }
 
-    public void downloadBlob(String containerName, String blobName, String downloadFilePath, String sasToken) {
+    public void downloadBlobFromContainer(String containerName, String blobName, String downloadFilePath, String sasToken) {
         try {
             BlobServiceClient blobServiceClient = new BlobServiceClientBuilder()
                     .endpoint(this.blobServiceUrl + "?" + sasToken)
