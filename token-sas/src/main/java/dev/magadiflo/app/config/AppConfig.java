@@ -26,7 +26,14 @@ public class AppConfig {
             if (isValid) {
                 log.info("Listando contenido del contenedor: {}", this.containerName);
                 blobStorageService.listBlobsInContainer(this.containerName, this.sasToken);
+
+                log.info("Descargando un archivo del contenedor: {}", this.containerName);
+                String userHome = System.getProperty("user.home");
+                String downloadFilePath = userHome + "\\Downloads\\reclamosnew_v1_respuestaIA.csv";
+                String blobName = "resultados/reclamosnew_v1_respuestaIA.csv";
+                blobStorageService.downloadBlob(this.containerName, blobName, downloadFilePath, this.sasToken);
             }
+
         };
     }
 }

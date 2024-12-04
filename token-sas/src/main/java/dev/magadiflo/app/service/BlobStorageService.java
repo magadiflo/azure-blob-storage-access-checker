@@ -1,5 +1,6 @@
 package dev.magadiflo.app.service;
 
+import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
@@ -45,14 +46,33 @@ public class BlobStorageService {
 
             // Listar los blobs (archivos) dentro del contenedor
             log.info("----------------------------------------------");
-            containerClient.listBlobs().forEach(blobItem -> {
-                log.info("Archivo encontrado: {}", blobItem.getName());
-            });
+            containerClient.listBlobs().forEach(blobItem -> log.info("Archivo encontrado: {}", blobItem.getName()));
             log.info("----------------------------------------------");
 
         } catch (Exception e) {
             log.error("Error al obtener los blobs del contenedor {}: {}", containerName, e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    public void downloadBlob(String containerName, String blobName, String downloadFilePath, String sasToken) {
+        try {
+            BlobServiceClient blobServiceClient = new BlobServiceClientBuilder()
+                    .endpoint(this.blobServiceUrl + "?" + sasToken)
+                    .buildClient();
+
+            // Obtener el cliente de contenedor
+            BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+
+            // Obtener el cliente del blob
+            BlobClient blobClient = containerClient.getBlobClient(blobName);
+
+            // Descargar el archivo al directorio local
+            blobClient.downloadToFile(downloadFilePath);
+
+            log.info("Archivo {} descargado exitosamente en {}", blobName, downloadFilePath);
+        } catch (Exception e) {
+            log.error("Error al descargar el archivo: {}", e.getMessage());
         }
     }
 
