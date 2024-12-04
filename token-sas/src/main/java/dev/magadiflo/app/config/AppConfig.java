@@ -22,16 +22,20 @@ public class AppConfig {
         return args -> {
             boolean isValid = blobStorageService.validateSasToken(this.sasToken);
             log.info(isValid ? ">>> El Token SAS es válido <<<" : ">>> El Token SAS no es válido <<<");
+            String userHome = System.getProperty("user.home");
 
             if (isValid) {
                 log.info("Listando contenido del contenedor: {}", this.containerName);
                 blobStorageService.listBlobsInContainer(this.containerName, this.sasToken);
 
-                log.info("Descargando un archivo del contenedor: {}", this.containerName);
-                String userHome = System.getProperty("user.home");
-                String downloadFilePath = userHome + "\\Downloads\\reclamosnew_v2_respuestaIA.csv";
-                String blobName = "resultados/reclamosnew_v2_respuestaIA.csv";
-                blobStorageService.downloadBlobFromContainer(this.containerName, blobName, downloadFilePath, this.sasToken);
+//                log.info("Descargando un archivo del contenedor: {}", this.containerName);
+//                String downloadFilePath = userHome + "\\Downloads\\reclamosnew_v2_respuestaIA.csv";
+//                String blobName = "resultados/reclamosnew_v2_respuestaIA.csv";
+//                blobStorageService.downloadBlobFromContainer(this.containerName, blobName, downloadFilePath, this.sasToken);
+
+                log.info("Descargando todos los archivos del contenedor: {}", this.containerName);
+                String downloadDir = userHome + "\\Downloads\\" + this.containerName;
+                blobStorageService.downloadAllBlobsFromContainer(this.containerName, downloadDir, this.sasToken);
             }
 
         };

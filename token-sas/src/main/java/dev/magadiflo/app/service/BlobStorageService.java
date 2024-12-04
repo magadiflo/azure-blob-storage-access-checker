@@ -8,6 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 @Slf4j
 @Service
 public class BlobStorageService {
@@ -75,5 +80,43 @@ public class BlobStorageService {
             log.error("Error al descargar el archivo: {}", e.getMessage());
         }
     }
+
+    public void downloadAllBlobsFromContainer(String containerName, String destinationDirectory, String sasToken) {
+        try {
+            BlobServiceClient blobServiceClient = new BlobServiceClientBuilder()
+                    .endpoint(this.blobServiceUrl + "?" + sasToken)
+                    .buildClient();
+            BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+
+            // Iterar sobre los blobs en el contenedor
+            containerClient.listBlobs().forEach(blobItem -> {
+                String blobName = blobItem.getName();
+                String destinationFilePath = destinationDirectory + "\\" + blobName.replace("/", "-");
+
+                // Crear las carpetas necesarias si no existen
+                Path destinationPath = Paths.get(destinationFilePath);
+                try {
+                    Files.createDirectories(destinationPath.getParent());
+                } catch (IOException e) {
+                    log.error("No se pudo crear el directorio para {}", destinationFilePath, e);
+                    return;
+                }
+
+                // Descargar cada blob
+                try {
+                    BlobClient blobClient = containerClient.getBlobClient(blobName);
+                    blobClient.downloadToFile(destinationFilePath);
+                    log.info("Archivo descargado: {}", destinationFilePath);
+                } catch (Exception e) {
+                    log.error("Error al descargar el blob: {}", blobName, e);
+                }
+            });
+
+            log.info("Todos los archivos se han descargado correctamente del contenedor '{}'", containerName);
+        } catch (Exception e) {
+            log.error("Error al descargar blobs del contenedor '{}': {}", containerName, e.getMessage());
+        }
+    }
+
 
 }
