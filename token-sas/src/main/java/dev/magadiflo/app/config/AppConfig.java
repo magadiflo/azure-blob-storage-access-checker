@@ -14,11 +14,19 @@ public class AppConfig {
     @Value("${custom.blob-storage.sas-token}")
     public String sasToken;
 
+    @Value("${custom.blob-storage.container-name}")
+    public String containerName;
+
     @Bean
     public CommandLineRunner run(BlobStorageService blobStorageService) {
         return args -> {
             boolean isValid = blobStorageService.validateSasToken(this.sasToken);
             log.info(isValid ? ">>> El Token SAS es válido <<<" : ">>> El Token SAS no es válido <<<");
+
+            if (isValid) {
+                log.info("Listando contenido del contenedor: {}", this.containerName);
+                blobStorageService.listBlobsInContainer(this.containerName, this.sasToken);
+            }
         };
     }
 }

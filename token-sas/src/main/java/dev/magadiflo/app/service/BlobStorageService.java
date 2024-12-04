@@ -1,5 +1,6 @@
 package dev.magadiflo.app.service;
 
+import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,28 @@ public class BlobStorageService {
             log.error("El token SAS no es válido o no tiene permisos suficientes: {}", e.getMessage());
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public void listBlobsInContainer(String containerName, String sasToken) {
+        try {
+            BlobServiceClient blobServiceClient = new BlobServiceClientBuilder()
+                    .endpoint(this.blobServiceUrl + "?" + sasToken)
+                    .buildClient();
+
+            // Obtener el cliente del contenedor específico
+            BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+
+            // Listar los blobs (archivos) dentro del contenedor
+            log.info("----------------------------------------------");
+            containerClient.listBlobs().forEach(blobItem -> {
+                log.info("Archivo encontrado: {}", blobItem.getName());
+            });
+            log.info("----------------------------------------------");
+
+        } catch (Exception e) {
+            log.error("Error al obtener los blobs del contenedor {}: {}", containerName, e.getMessage());
+            e.printStackTrace();
         }
     }
 
