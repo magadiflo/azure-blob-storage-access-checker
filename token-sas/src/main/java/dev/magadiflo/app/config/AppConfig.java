@@ -28,14 +28,14 @@ public class AppConfig {
                 log.info("Listando contenido del contenedor: {}", this.containerName);
                 blobStorageService.listBlobsInContainer(this.containerName, this.sasToken);
 
-                log.info("Descargando un archivo del contenedor: {}", this.containerName);
-                String blobName = "resultados/IA_Reclamos_input_20241204150413.csv";
-                String downloadFilePath = userHome + "\\Downloads\\" + blobName.replace("/", "-");
-                blobStorageService.downloadBlobFromContainer(this.containerName, blobName, downloadFilePath, this.sasToken);
-
-                log.info("Descargando todos los archivos del contenedor: {}", this.containerName);
-                String downloadDir = userHome + "\\Downloads\\" + this.containerName;
-                blobStorageService.downloadAllBlobsFromContainer(this.containerName, downloadDir, this.sasToken);
+//                log.info("Descargando un archivo del contenedor: {}", this.containerName);
+//                String blobName = "resultados/IA_Reclamos_input_20241204150413.csv";
+//                String downloadFilePath = userHome + "\\Downloads\\" + blobName.replace("/", "-");
+//                blobStorageService.downloadBlobFromContainer(this.containerName, blobName, downloadFilePath, this.sasToken);
+//
+//                log.info("Descargando todos los archivos del contenedor: {}", this.containerName);
+//                String downloadDir = userHome + "\\Downloads\\" + this.containerName;
+//                blobStorageService.downloadAllBlobsFromContainer(this.containerName, downloadDir, this.sasToken);
             }
 
         };
