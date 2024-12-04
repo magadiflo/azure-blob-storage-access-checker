@@ -29,8 +29,8 @@ public class AppConfig {
 
                 log.info("Descargando un archivo del contenedor: {}", this.containerName);
                 String userHome = System.getProperty("user.home");
-                String downloadFilePath = userHome + "\\Downloads\\reclamosnew_v1_respuestaIA.csv";
-                String blobName = "resultados/reclamosnew_v1_respuestaIA.csv";
+                String downloadFilePath = userHome + "\\Downloads\\reclamosnew_v2_respuestaIA.csv";
+                String blobName = "resultados/reclamosnew_v2_respuestaIA.csv";
                 blobStorageService.downloadBlobFromContainer(this.containerName, blobName, downloadFilePath, this.sasToken);
             }
 
