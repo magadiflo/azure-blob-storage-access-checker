@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: account-key
+
+custom:
+  blob-storage:
+    account-key: ${ACCOUNT_KEY}
+    account-name: ${ACCOUNT_NAME}
+    end-point: ${END_POINT}

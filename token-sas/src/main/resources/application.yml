@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: token-sas
+
+custom:
+  blob-storage:
+    container-name: procesamiento
+    url: ${URL_BLOB}
+    sas-token: ${SAS_TOKEN}
